@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
-export default function FeedBack() {
+export default function Welcome() {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [message, setMessage] = useState("");
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardDismissMode="on-drag">
       <Text style={styles.headingSection}>
         How was your visit in Little Lemon
       </Text>
@@ -16,19 +22,10 @@ export default function FeedBack() {
         to hear your experience with us!
       </Text>
       <TextInput
+        placeholder="First Name"
         style={styles.input}
         value={firstName}
-        onchangeText={setFirstName}
-      />
-      <TextInput
-        style={styles.input}
-        value={lastName}
-        onchangeText={setLastName}
-      />
-      <TextInput
-        style={styles.messageInput}
-        value={message}
-        onchangeText={setMessage}
+        onChangeText={setFirstName}
       />
     </ScrollView>
   );
@@ -44,17 +41,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderColor: "EDEFEE",
-    backgroundColor: "#F4CE14",
+    backgroundColor: "#ffffff",
     fontSize: 16,
   },
-  messageInput: {
-    height: 150,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: "#F4CE14",
-  },
+
   headingSection: {
     fontSize: 28,
     padding: 20,
