@@ -7,11 +7,20 @@ import {
   Text,
   TextInput,
   View,
+  useColorScheme,
 } from "react-native";
 
 export default function Welcome() {
+  const colorScheme = useColorScheme();
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[
+        styles.container,
+        colorScheme === "light"
+          ? { backgroundColor: "#fff" }
+          : { backgroundColor: "#333333" },
+      ]}
+    >
       <Image
         style={styles.logo}
         resizeMode="contain"
@@ -20,6 +29,8 @@ export default function Welcome() {
       <Text style={styles.title}>
         Little Lemon, your local Mediteranean Bistrof
       </Text>
+      <Text style={styles.title}>color scheme:{colorScheme} </Text>
+
       <Image
         style={styles.image}
         source={require("../src/img/Picture1.png")}
