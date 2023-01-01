@@ -13,13 +13,12 @@ export default function App() {
       style={{
         flex: 1,
         justifyContent: "space-between",
-        backgroundColor: "#495E57",
       }}
     >
       <LittleLemonHeader />
       {/* <MenuItems /> */}
-      <FeedBackForm />
-      {/* <Welcome /> */}
+      {/* <FeedBackForm /> */}
+      <Welcome />
       {/* <LoginScreen /> */}
       <LittleLemonFooter />
     </View>
