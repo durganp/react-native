@@ -8,17 +8,19 @@ import {
   TextInput,
   View,
   useColorScheme,
+  useWindowDimensions,
 } from "react-native";
 
 export default function Welcome() {
   const colorScheme = useColorScheme();
+  const { height, width, fontScale } = useWindowDimensions();
   return (
     <ScrollView
       style={[
         styles.container,
-        colorScheme === "light"
-          ? { backgroundColor: "#fff" }
-          : { backgroundColor: "#333333" },
+        colorScheme
+          ? { backgroundColor: "#" }
+          : { backgroundColor: "#333333", color: "#fff" },
       ]}
     >
       <Image
@@ -29,36 +31,7 @@ export default function Welcome() {
       <Text style={styles.title}>
         Little Lemon, your local Mediteranean Bistrof
       </Text>
-      <Text style={styles.title}>color scheme:{colorScheme} </Text>
-
-      <Image
-        style={styles.image}
-        source={require("../src/img/Picture1.png")}
-        resizeMode="cover"
-        accessible={true}
-        accessibilityLabel={"Little Lemon Logo"}
-      />
-      <Image
-        style={styles.image}
-        source={require("../src/img/Picture2.png")}
-        resizeMode="cover"
-        accessible={true}
-        accessibilityLabel={"Little Lemon Logo"}
-      />
-      <Image
-        style={styles.image}
-        source={require("../src/img/Picture3.png")}
-        resizeMode="cover"
-        accessible={true}
-        accessibilityLabel={"Little Lemon Logo"}
-      />
-      <Image
-        style={styles.image}
-        source={require("../src/img/Picture4.png")}
-        resizeMode="center"
-        accessible={true}
-        accessibilityLabel={"Little Lemon Logo"}
-      />
+      <Text style={styles.title}>Color Scheme:{colorScheme} </Text>
     </ScrollView>
   );
 }
@@ -78,7 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     marginTop: 25,
-    backgroundColor: "#fff",
+    color: "#fff",
   },
   title: {
     marginTop: 16,
