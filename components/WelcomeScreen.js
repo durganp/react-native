@@ -9,9 +9,10 @@ import {
   View,
   useColorScheme,
   useWindowDimensions,
+  Pressable,
 } from "react-native";
 
-export default function Welcome() {
+export default function Welcome({ navigation }) {
   const colorScheme = useColorScheme();
   const { height, width, fontScale } = useWindowDimensions();
   return (
@@ -32,6 +33,9 @@ export default function Welcome() {
         Little Lemon, your local Mediteranean Bistrof
       </Text>
       <Text style={styles.title}>Color Scheme:{colorScheme} </Text>
+      <Pressable onPress={() => navigation.navigate("Menu")}>
+        <Text style={styles.buttonText}>View Menu</Text>
+      </Pressable>
     </ScrollView>
   );
 }
@@ -59,5 +63,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  buttonText: {
+    color: "#333333",
+    textAlign: "center",
+    fontSize: 32,
   },
 });

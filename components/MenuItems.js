@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, SectionList, StyleSheet, Text, View } from "react-native";
 
-export default function MenuItems() {
+export default function MenuItems({ navigation }) {
   const menuItemsToDisplay = [
     {
       title: "Appetizers",
@@ -97,6 +97,9 @@ export default function MenuItems() {
           ItemSeparatorComponent={Saperator}
         ></SectionList>
       )}
+      <Pressable onPress={() => navigation.goBack()}>
+        <Text style={menuStyles.buttonText}> Go Back</Text>
+      </Pressable>
     </View>
   );
 }
@@ -108,7 +111,6 @@ const menuStyles = StyleSheet.create({
   innerContainer: {
     paddingHorizontal: 40,
     paddingVertical: 20,
-    backgroundColor: "#333333",
   },
   sectionHeader: {
     backgroundColor: "#223300",
@@ -124,6 +126,7 @@ const menuStyles = StyleSheet.create({
     color: "white",
   },
   menuItem: {
+    backgroundColor: "#495E57",
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -146,7 +149,7 @@ const menuStyles = StyleSheet.create({
     padding: 10,
     marginVertical: 8,
     margin: 40,
-    backgroundColor: "#EDEFEE",
+
     borderColor: "#EDEFEE",
     borderWidth: 2,
     borderRadius: 12,
