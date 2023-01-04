@@ -12,7 +12,7 @@ import {
   Pressable,
 } from "react-native";
 
-export default function Welcome({ navigation }) {
+export default function Welcome(props) {
   const colorScheme = useColorScheme();
   const { height, width, fontScale } = useWindowDimensions();
   return (
@@ -32,10 +32,6 @@ export default function Welcome({ navigation }) {
       <Text style={styles.title}>
         Little Lemon, your local Mediteranean Bistrof
       </Text>
-      <Text style={styles.title}>Color Scheme:{colorScheme} </Text>
-      <Pressable onPress={() => navigation.navigate("Menu")}>
-        <Text style={styles.buttonText}>View Menu</Text>
-      </Pressable>
     </ScrollView>
   );
 }

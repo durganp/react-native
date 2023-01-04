@@ -45,7 +45,7 @@ export default function MenuItems({ navigation }) {
       ],
     },
   ];
-  const [showMenu, setShowMenu] = useState(false);
+
   const MenuSection = ({ item }) => (
     <View style={menuStyles.menuItem}>
       <Text style={menuStyles.itemText}>{item.name}</Text>
@@ -69,34 +69,15 @@ export default function MenuItems({ navigation }) {
 
   return (
     <View style={menuStyles.container}>
-      {!showMenu && (
-        <Text style={menuStyles.infoSection}>
-          Little Memon is a charming neighborhood bistro that serves simple food
-          and classic cocktails in a lively but casual environment. we would
-          love to hear your experience with us!
-        </Text>
-      )}
+      <SectionList
+        keyExtractor={(item, index) => item + index}
+        sections={menuItemsToDisplay}
+        renderSectionHeader={renderSectionHeader}
+        renderItem={renderItem}
+        ListFooterComponent={Footer}
+        ItemSeparatorComponent={Saperator}
+      ></SectionList>
 
-      <Pressable
-        style={menuStyles.button}
-        onPress={() => {
-          setShowMenu(!showMenu);
-        }}
-      >
-        <Text style={menuStyles.buttonText}>
-          {showMenu ? "Home" : "View Menu"}
-        </Text>
-      </Pressable>
-      {showMenu && (
-        <SectionList
-          keyExtractor={(item, index) => item + index}
-          sections={menuItemsToDisplay}
-          renderSectionHeader={renderSectionHeader}
-          renderItem={renderItem}
-          ListFooterComponent={Footer}
-          ItemSeparatorComponent={Saperator}
-        ></SectionList>
-      )}
       <Pressable onPress={() => navigation.goBack()}>
         <Text style={menuStyles.buttonText}> Go Back</Text>
       </Pressable>
@@ -106,7 +87,7 @@ export default function MenuItems({ navigation }) {
 
 const menuStyles = StyleSheet.create({
   container: {
-    flex: 0.9,
+    flex: 1,
   },
   innerContainer: {
     paddingHorizontal: 40,
