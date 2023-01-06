@@ -1,23 +1,102 @@
-import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import LittleLemonHeader from "./components/LittleLemonHeader";
-import MenuItems from "./components/MenuItems";
-import FeedBackForm from "./components/FeedBackForm";
-import Welcome from "./components/WelcomeScreen";
-import LoginScreen from "./components/LoginScreen";
-import LittleLemonFooter from "./components/LittleLemonFooter";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
 
-const Drawer = createDrawerNavigator();
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Welcome" component={Welcome} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+export default App = () => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const getMenu = async () => {
+    try {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/littleLemonSimpleMenu.json"
+      );
+      const json = await response.json();
+      setData(json.menu);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginUser = async () => {
+    try {
+      const response = await fetch("https://your-website.com/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: "Meta User",
+          email: "metaUser@example.com",
+          password: "abc123$",
+        }),
+      });
+
+      const responseJson = await response.json();
+      console.warn(responseJson);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getMenu();
+  }, []);
+
+  const Item = ({ name, price }) => (
+    <View style={menuStyles.innerContainer}>
+      <Text style={menuStyles.itemText}>{name}</Text>
+      <Text style={menuStyles.itemText}>{"$" + price}</Text>
+    </View>
   );
-}
+
+  const renderItem = ({ item }) => (
+    <Item name={item.title} price={item.price} />
+  );
+
+  return (
+    <SafeAreaView style={menuStyles.container}>
+      <Text style={menuStyles.headerText}>Little Lemon</Text>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={({ id }, index) => id}
+          renderItem={renderItem}
+        />
+      )}
+    </SafeAreaView>
+  );
+};
+
+const menuStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  innerContainer: {
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    backgroundColor: "#495E57",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  itemText: {
+    color: "#F4CE14",
+    fontSize: 22,
+  },
+  headerText: {
+    color: "#495E57",
+    fontSize: 30,
+    textAlign: "center",
+  },
+});
