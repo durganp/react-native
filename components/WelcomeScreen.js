@@ -14,6 +14,7 @@ import {
 
 export default function Welcome(props) {
   const colorScheme = useColorScheme();
+
   const { height, width, fontScale } = useWindowDimensions();
   return (
     <ScrollView

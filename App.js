@@ -1,80 +1,38 @@
-import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, Text, SafeAreaView, View, StyleSheet } from "react-native";
+import menuiItems from "./menuItems.json";
+
+const menu = menuiItems.menu;
 
 export default App = () => {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  // const [myJson, setMyJson] = useState([]);
+  // const menuItems = () => {
 
-  const getMenu = async () => {
-    try {
-      const response = await fetch(
-        "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/littleLemonSimpleMenu.json"
-      );
-      const json = await response.json();
-      setData(json.menu);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // setMyJson(menu);
+  // };
 
-  const loginUser = async () => {
-    try {
-      const response = await fetch("https://your-website.com/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: "Meta User",
-          email: "metaUser@example.com",
-          password: "abc123$",
-        }),
-      });
+  // useEffect(() => {
+  //   menu();
+  // }, []);
 
-      const responseJson = await response.json();
-      console.warn(responseJson);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    getMenu();
-  }, []);
-
-  const Item = ({ name, price }) => (
-    <View style={menuStyles.innerContainer}>
-      <Text style={menuStyles.itemText}>{name}</Text>
-      <Text style={menuStyles.itemText}>{"$" + price}</Text>
+  const Item = (props) => (
+    <View style={menuStyles.menuContainer}>
+      <Text style={menuStyles.menuText}>{props.title}</Text>
+      <Text style={menuStyles.menuText}>${props.price}</Text>
     </View>
   );
-
   const renderItem = ({ item }) => (
-    <Item name={item.title} price={item.price} />
+    <Item title={item.title} price={item.price} />
   );
 
   return (
     <SafeAreaView style={menuStyles.container}>
-      <Text style={menuStyles.headerText}>Little Lemon</Text>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={data}
-          keyExtractor={({ id }, index) => id}
-          renderItem={renderItem}
-        />
-      )}
+      <Text style={menuStyles.headerText}>Little Lemon Menu</Text>
+      <FlatList
+        data={menu}
+        keyExtractor={(menu) => menu.id}
+        renderItem={renderItem}
+      />
     </SafeAreaView>
   );
 };
@@ -83,20 +41,20 @@ const menuStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  innerContainer: {
-    paddingHorizontal: 40,
-    paddingVertical: 20,
-    backgroundColor: "#495E57",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  itemText: {
-    color: "#F4CE14",
-    fontSize: 22,
-  },
   headerText: {
-    color: "#495E57",
+    color: "#F4CE14",
     fontSize: 30,
     textAlign: "center",
+  },
+  menuContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#495E57",
+  },
+  menuText: {
+    color: "#F4CE14",
+    fontSize: 22,
   },
 });
