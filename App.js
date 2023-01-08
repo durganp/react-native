@@ -1,60 +1,94 @@
-import { useEffect, useState } from "react";
-import { FlatList, Text, SafeAreaView, View, StyleSheet } from "react-native";
-import menuiItems from "./menuItems.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const menu = menuiItems.menu;
+const App = () => {
+  const [costumers, setCostumers] = useState([]);
+  const [textInputValue, setTextInputValue] = useState("");
 
-export default App = () => {
-  // const [myJson, setMyJson] = useState([]);
-  // const menuItems = () => {
+  useEffect(() => {
+    (async () => {
+      try {
+        const costumers = await AsyncStorage.getItem("costumers");
+        setCostumers(costumers === null ? [] : JSON.parse(costumers));
+      } catch (err) {}
+    })();
+  }, []);
 
-  // setMyJson(menu);
-  // };
-
-  // useEffect(() => {
-  //   menu();
-  // }, []);
-
-  const Item = (props) => (
-    <View style={menuStyles.menuContainer}>
-      <Text style={menuStyles.menuText}>{props.title}</Text>
-      <Text style={menuStyles.menuText}>${props.price}</Text>
-    </View>
-  );
-  const renderItem = ({ item }) => (
-    <Item title={item.title} price={item.price} />
-  );
+  useEffect(() => {
+    (async () => {
+      try {
+        await AsyncStorage.setItem("costumers", JSON.stringify(costumers));
+      } catch (err) {
+        alert(err);
+      }
+    })();
+  }, [costumers]);
 
   return (
-    <SafeAreaView style={menuStyles.container}>
-      <Text style={menuStyles.headerText}>Little Lemon Menu</Text>
-      <FlatList
-        data={menu}
-        keyExtractor={(menu) => menu.id}
-        renderItem={renderItem}
-      />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.header}>Little Lemon Costumers</Text>
+        <TextInput
+          placeholder="Enter the customer name"
+          value={textInputValue}
+          onChangeText={(data) => setTextInputValue(data)}
+          underlineColorAndroid="transparent"
+          style={styles.input}
+        />
+        <TouchableOpacity
+          onPress={() => {
+            setCostumers([...costumers, textInputValue]);
+            setTextInputValue("");
+          }}
+          style={styles.saveButton}
+        >
+          <Text style={styles.buttonText}> save Costumer</Text>
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.costumerList}>Costumer: </Text>
+          {costumers.map((costumer) => (
+            <Text style={styles.costumerList}>{costumer} </Text>
+          ))}
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
 
-const menuStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: "white",
+    padding: 10,
   },
-  headerText: {
-    color: "#F4CE14",
-    fontSize: 30,
+  header: {
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  input: {
+    fontSize: 20,
+    marginVertical: 20,
+    borderColor: "#333333",
+    borderStyle: "solid",
+    borderWidth: 1,
     textAlign: "center",
   },
-  menuContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#495E57",
+  saveButton: {
+    backgroundColor: "green",
   },
-  menuText: {
-    color: "#F4CE14",
+  buttonText: {
+    fontSize: 20,
+    textAlign: "center",
+    color: "#fff",
+    padding: 2,
+    fontSize: 25,
+  },
+  costumerList: {
+    textAlign: "center",
     fontSize: 22,
   },
 });
+export default App;
